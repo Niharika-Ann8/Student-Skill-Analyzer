@@ -42,7 +42,7 @@ def submit():
 
     if len(user_df) <= 1:
         return render_template(
-            "result.html",
+            "dashboard.html",
             name=name,
             first_time=True,
             best_domain=domain,
