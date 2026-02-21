@@ -6,8 +6,7 @@
     <title>Dashboard - Student Skill Analyzer</title>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="style.css">
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
 </head>
@@ -15,9 +14,6 @@
 <body>
 
 <div class="container">
-
-    <!-- Logo -->
-    <img src="logo.png" class="logo" alt="Logo">
 
     <!-- Dashboard Title -->
     <h1>Welcome to Your Dashboard</h1>

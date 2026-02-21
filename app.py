@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request
 import pandas as pd
 from recommendations import career_recommendations
-import csv
 from datetime import date 
 
 import os
@@ -13,12 +12,11 @@ supabase = create_client(url, key)
 
 app = Flask(__name__)
 
-@app.route("/")
-def index():
-    return render_template("index.html")
+@app.route("/dashboard")
+def dashboard():
+    return render_template("dashboard.html")
+
 @app.route("/submit", methods=["POST"])
-
-
 def submit():
 
     name = request.form["name"]
@@ -26,9 +24,8 @@ def submit():
     domain = request.form["domain"]
     hours = float(request.form["hours"])
     today = date.today().strftime("%d/%m/%Y")
-    
 
-    supabase.table("your_table_name").insert({
+    supabase.table("UserData").insert({
         "name": name,
         "skill": skill,
         "domain": domain,
@@ -36,15 +33,7 @@ def submit():
         "date": today
     }).execute()
 
-    supabase.table("your_table_name").insert({
-        "name": name,
-        "skill": skill,
-        "domain": domain,
-        "hours": hours,
-        "date": today
-    }).execute()
-
-    response = supabase.table("your_table_name").select("*").eq("name", name).execute()
+    response = supabase.table("UserData").select("*").eq("name", name).execute()
     user_df = pd.DataFrame(response.data)
 
     if len(user_df) <= 1:
