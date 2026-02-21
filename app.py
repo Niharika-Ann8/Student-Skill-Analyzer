@@ -67,7 +67,7 @@ def submit():
     analysis = grouped.to_dict()
 
     return render_template(
-        "result.html",
+        "dashboard.html",
         name=name,
         best_domain=best_domain,
         career=career,

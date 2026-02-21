@@ -57,6 +57,28 @@
             <li>Review Data Analysis techniques.</li>
         </ul>
     </div>
+    <!-- Results Section -->
+    {% if career %}
+    <div class="card">
+        <h3>Your Recommendation</h3>
+        <p><strong>Name:</strong> {{ name }}</p>
+        <p><strong>Best Domain:</strong> {{ best_domain }}</p>
+        <p><strong>Recommended Career:</strong> {{ career }}</p>
+    
+        <h4>Next Steps:</h4>
+        <ul>
+            {% for step in steps %}
+                <li>{{ step }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    {% if first_time %}
+    <div class="card">
+        <p>Welcome {{ name }}! Keep logging your progress and we'll give you a personalized recommendation over time.</p>
+      </div>
+    {% endif %}
 
     <!-- Logout Button -->
     <button onclick="goToLogin()" class="logout-btn">Logout</button>
