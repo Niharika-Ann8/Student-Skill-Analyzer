@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Student Skill Analyzer</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Logo -->
+    <img src="logo.png" class="logo" alt="Logo">
+
+    <!-- Dashboard Title -->
+    <h1>Welcome to Your Dashboard</h1>
+
+    <!-- Quote -->
+    <p class="quote">
+        "Track your skills and progress every day."
+    </p>
+
+    <!-- Skill Progress Cards -->
+    <div class="card">
+        <h3>Skill Progress</h3>
+        <p>Python: 75%</p>
+        <p>Data Analysis: 60%</p>
+    </div>
+
+    <!-- Daily Input Section -->
+    <div class="card">
+        <h3>Log Your Study</h3>
+        <form id="studyForm">
+            <input type="text" name="topic" placeholder="What did you study?" required>
+            <input type="number" name="hours" placeholder="Hours spent" min="0" step="0.1" required>
+            <button type="submit">Add Entry</button>
+        </form>
+    </div>
+
+    <!-- Recommendations -->
+    <div class="card">
+        <h3>Recommendations</h3>
+        <ul id="recommendations">
+            <li>Practice Python loops and functions.</li>
+            <li>Review Data Analysis techniques.</li>
+        </ul>
+    </div>
+
+    <!-- Logout Button -->
+    <button onclick="goToLogin()" class="logout-btn">Logout</button>
+
+</div>
+
+<!-- JS for form and logout -->
+<script>
+document.getElementById("studyForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    const topic = document.querySelector("input[name='topic']").value;
+    const hours = document.querySelector("input[name='hours']").value;
+    if(topic && hours){
+        alert(`Added: ${topic} - ${hours} hours`);
+        // Clear inputs
+        document.querySelector("input[name='topic']").value = '';
+        document.querySelector("input[name='hours']").value = '';
+    }
+});
+
+function goToLogin() {
+    window.location.href = "index.html";
+}
+</script>
+
+</body>
+</html>
