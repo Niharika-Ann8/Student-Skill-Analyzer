@@ -1,14 +1,17 @@
 from flask import Flask, render_template, request
 import pandas as pd
-import os
 from recommendations import career_recommendations
 import csv
-from datetime import date
+from datetime import date 
+
+import os
+from supabase import create_client
+
+url = os.environ.get("SUPABASE_URL")
+key = os.environ.get("SUPABASE_KEY")
+supabase = create_client(url, key)
 
 app = Flask(__name__)
-
-
-DATA_FILE = os.path.join("data","data.csv")
 
 @app.route("/")
 def index():
@@ -22,44 +25,53 @@ def submit():
     skill = request.form["skill"]
     domain = request.form["domain"]
     hours = float(request.form["hours"])
-    interest = float(request.form["interest"])
     today = date.today().strftime("%d/%m/%Y")
+    
 
-    df = pd.read_csv(DATA_FILE)
-
-    new_row = {
+    supabase.table("your_table_name").insert({
         "name": name,
         "skill": skill,
         "domain": domain,
         "hours": hours,
-        "interest": interest,
-        "date" : today 
-    }
+        "date": today
+    }).execute()
 
-    df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
+    supabase.table("your_table_name").insert({
+        "name": name,
+        "skill": skill,
+        "domain": domain,
+        "hours": hours,
+        "date": today
+    }).execute()
 
-    
-    df.to_csv(DATA_FILE, index=False)
+    response = supabase.table("your_table_name").select("*").eq("name", name).execute()
+    user_df = pd.DataFrame(response.data)
 
-    
-    user_df = df[df["name"] == name]
+    if len(user_df) <= 1:
+        return render_template(
+            "result.html",
+            name=name,
+            first_time=True,
+            best_domain=domain,
+            career=career_recommendations[domain]["career"],
+            steps=career_recommendations[domain]["next_steps"],
+             analysis=None
+        ) 
+
+    total_logs = len(user_df)
+    domain_logs = user_df.groupby("domain")["domain"].count()
+    interest = (domain_logs / total_logs) * 10
 
     grouped = user_df.groupby("domain").agg({
-        "hours": "sum",
-        "interest": "mean"
+        "hours": "sum"
     })
-
-    
+    grouped["interest"] = interest
     grouped["score"] = grouped["hours"] * grouped["interest"]
 
-    
     best_domain = grouped["score"].idxmax()
-
     career = career_recommendations[best_domain]["career"]
     steps = career_recommendations[best_domain]["next_steps"]
-
     analysis = grouped.to_dict()
-
 
     return render_template(
         "result.html",
@@ -70,9 +82,9 @@ def submit():
         analysis=analysis
     )
 
+
 if __name__ == "__main__":
     app.run(debug=True)
-
 
 
 
