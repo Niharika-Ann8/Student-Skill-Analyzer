@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Skill Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Logo -->
+    <img src="{{ url_for('static', filename='logo.png') }}" class="logo">
+
+    <!-- App Name -->
+    <h1>Student Skill Analyzer</h1>
+
+    <!-- Quote -->
+    <p class="quote">
+        "Small daily improvements lead to stunning results."
+    </p>
+
+    <!-- Name Form -->
+    <form action="/dashboard" method="POST">
+
+        <input type="text"
+               name="name"
+               placeholder="Enter your name"
+               required>
+
+        <button type="submit">Login</button>
+
+    </form>
+
+</div>
+
+</body>
+</html>
+
