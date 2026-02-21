@@ -16,8 +16,8 @@ app = Flask(__name__)
 @app.route("/")
 def index():
     return render_template("index.html")
+@app.route("/submit", methods=["POST"])
 
-@app.route("/dashboard", methods=["POST"])
 
 def submit():
 
